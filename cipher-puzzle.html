@@ -21,7 +21,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -45,19 +45,18 @@
             font-size: 1.1rem;
         }
         
-        .journal-layout {
+        .puzzle-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             margin-bottom: 2rem;
         }
         
-        .journal-page {
+        .journal-section {
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #00ff88;
             border-radius: 15px;
             padding: 2rem;
-            position: relative;
         }
         
         .journal-header {
@@ -73,103 +72,141 @@
             margin-bottom: 0.5rem;
         }
         
-        .encrypted-text {
+        .research-notes {
             background: rgba(255, 255, 136, 0.1);
-            border: 1px solid #ffff88;
-            border-radius: 8px;
-            padding: 1.5rem;
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            letter-spacing: 1px;
-            color: #ffff88;
-            margin-bottom: 2rem;
-            text-align: center;
+            border-left: 4px solid #ffff88;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
         
-        .cipher-tools {
+        .encrypted-journal {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ff6464;
+            border-radius: 10px;
+            padding: 2rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #ff6464;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+        
+        .cipher-station {
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #00ff88;
             border-radius: 15px;
             padding: 2rem;
         }
         
-        .tool-section {
+        .multi-cipher-tabs {
+            display: flex;
             margin-bottom: 2rem;
+            border-bottom: 1px solid #00ff88;
         }
         
-        .cipher-wheel {
-            background: rgba(0, 255, 136, 0.1);
-            border: 2px solid #00ff88;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            text-align: center;
-        }
-        
-        .alphabet-row {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin: 0.5rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .letter-box {
-            width: 30px;
-            height: 30px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #00ff88;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .cipher-tab {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #666;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
             font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            font-size: 0.9rem;
+            margin-right: 0.5rem;
         }
         
-        .letter-box.original {
-            background: rgba(255, 255, 136, 0.2);
-            color: #ffff88;
-        }
-        
-        .letter-box.shifted {
+        .cipher-tab.active {
             background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
             color: #00ff88;
         }
         
-        .shift-control {
+        .cipher-tool {
+            display: none;
+            margin-bottom: 2rem;
+        }
+        
+        .cipher-tool.active {
+            display: block;
+        }
+        
+        .frequency-analysis {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            padding: 1.5rem;
             margin: 1rem 0;
+        }
+        
+        .letter-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .letter-count {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff88;
+            padding: 0.5rem;
             text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
         }
         
-        .shift-slider {
-            width: 200px;
-            margin: 0 1rem;
-            background: #333;
+        .substitution-grid {
+            display: grid;
+            grid-template-columns: repeat(13, 1fr);
+            gap: 0.3rem;
+            margin: 1rem 0;
+        }
+        
+        .sub-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff88;
+            padding: 0.3rem;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+        }
+        
+        .sub-input {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff6464;
+            color: #ff6464;
+            text-align: center;
+            width: 100%;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            padding: 0.2rem;
+        }
+        
+        .keyword-input {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 5px;
+            padding: 1rem;
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            width: 100%;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .decoder-workspace {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff88;
             border-radius: 10px;
-            height: 8px;
-            outline: none;
-            -webkit-appearance: none;
-        }
-        
-        .shift-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #00ff88;
-            cursor: pointer;
-        }
-        
-        .decoder-area {
+            padding: 1.5rem;
             margin-top: 2rem;
         }
         
-        .decoder-input {
+        .workspace-input {
             width: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             border: 2px solid #00ff88;
             border-radius: 8px;
             padding: 1rem;
@@ -178,7 +215,7 @@
             font-size: 1rem;
             line-height: 1.6;
             resize: vertical;
-            min-height: 150px;
+            min-height: 200px;
         }
         
         .hint-box {
@@ -190,12 +227,21 @@
             color: #ffff88;
         }
         
+        .challenge-box {
+            background: rgba(255, 100, 100, 0.1);
+            border: 2px solid #ff6464;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            color: #ff6464;
+        }
+        
         .btn {
             background: linear-gradient(45deg, #00ff88, #88ffaa);
             color: #000;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
             font-family: 'Orbitron', monospace;
             font-weight: 700;
             cursor: pointer;
@@ -210,6 +256,10 @@
         
         .btn.secondary {
             background: linear-gradient(45deg, #666, #888);
+        }
+        
+        .btn.danger {
+            background: linear-gradient(45deg, #ff6464, #ffaaaa);
         }
         
         .result-message {
@@ -231,39 +281,40 @@
             color: #ff6464;
         }
         
-        .decoded-output {
-            background: rgba(0, 255, 136, 0.1);
-            border: 2px solid #00ff88;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-            font-family: 'Roboto Mono', monospace;
-            line-height: 1.6;
-            display: none;
+        .pattern-highlight {
+            background: rgba(255, 255, 136, 0.3);
+            color: #ffff00;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: bold;
         }
         
-        .time-highlight {
-            background: rgba(255, 100, 100, 0.3);
-            color: #ff6464;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-weight: bold;
+        .time-reveal {
             font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: #ff6464;
+            text-shadow: 0 0 10px #ff6464;
+            text-align: center;
+            margin: 2rem 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         @media (max-width: 768px) {
-            .journal-layout {
+            .puzzle-layout {
                 grid-template-columns: 1fr;
             }
             
-            .alphabet-row {
-                gap: 4px;
+            .substitution-grid {
+                grid-template-columns: repeat(6, 1fr);
             }
             
-            .letter-box {
-                width: 25px;
-                height: 25px;
-                font-size: 0.8rem;
+            .multi-cipher-tabs {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -271,141 +322,148 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="title">📜 DR. CHEN'S JOURNAL</h1>
-            <p class="subtitle">Personal Research Log - Final Entry</p>
+            <h1 class="title">📜 DR. CHEN'S ENCRYPTED JOURNAL</h1>
+            <p class="subtitle">Advanced Cryptographic Analysis Required</p>
         </div>
         
-        <div class="journal-layout">
-            <div class="journal-page">
+        <div class="puzzle-layout">
+            <div class="journal-section">
                 <div class="journal-header">
                     <div class="journal-date">Research Log Entry #2847</div>
-                    <div class="journal-date">November 15, 1987 - 23:47 UTC</div>
+                    <div class="journal-date">November 15, 1987 - [REDACTED]</div>
                     <h3>CLASSIFIED - COSMIC ALIGNMENT PROJECT</h3>
                 </div>
                 
-                <div class="encrypted-text" id="encrypted-text">
-                    WKH VWDUV DOLJQ DW WZZBVHYHQIRUWBVHYHQ<br>
-                    RQ WKH QLJKW RI GLVFRYHUB<br><br>
-                    PHULGLDB VWDWLRQ KROGV WKH NHBV<br>
-                    WR WKH FRVPLF JDWHZDB<br><br>
-                    ZKHQ RULRQ ULVHV DW PLGQLJKW<br>
-                    WKH SDWK RSHQV WR LQILQLWB<br><br>
-                    WKLV LV PB ILQDO PHVVDJH<br>
-                    - GU. FKHQ
+                <div class="research-notes">
+                    <div class="journal-date">Pre-encryption notes found in margins:</div>
+                    <p><strong>Cipher Method:</strong> "Multi-layered encryption using astronomical keywords. The constellation holds the first key, the planet count shifts the alphabet."</p>
+                    <p><strong>Security Note:</strong> "Only someone who understands our previous discoveries can decode this. The time itself is encoded within."</p>
+                </div>
+                
+                <div class="challenge-box">
+                    <h4>🔒 CRYPTOGRAPHIC CHALLENGE</h4>
+                    <p>Dr. Chen used a sophisticated multi-cipher system. The message below requires:</p>
+                    <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li><strong>Keyword Substitution</strong> using an astronomical term</li>
+                        <li><strong>Caesar Shift</strong> based on planetary count</li>
+                        <li><strong>Pattern Recognition</strong> to extract the final time</li>
+                    </ol>
+                </div>
+                
+                <div class="encrypted-journal" id="encrypted-journal">
+PDIJLW KZNL HFJBQ HL QBWQZ MJKZ MJKZBK SZNM<br>
+KQ PDL QFJDP KM BFIWKZLNZ<br><br>
+
+HLNFBFHQ WPHRFKQ DKQVL PDL FLZL<br>
+PK PDL WKERFW JHPLTHR<br><br>
+
+TDLQ KNFKQ NFELL HP EFBQFJDP<br>
+PDL RHPD KMLQL PK FQMFQFPZ<br><br>
+
+PDFK FE EZ MQHJ ELLHJL HP<br>
+<span class="pattern-highlight">PTLQPZ PDNLL MKZPZ ELHZQ</span><br>
+- BN. WDLQ
                 </div>
                 
                 <div class="hint-box">
-                    <strong>🔍 Cryptographer's Note:</strong><br>
-                    "Dr. Chen was known to use classical encryption methods. She often referenced astronomical numbers in her ciphers. The shift value might relate to our solar system..."
-                </div>
-                
-                <div class="hint-box">
-                    <strong>💡 Additional Clue:</strong><br>
-                    "Look for patterns in the text. Some words might be time indicators. The number sequence 'WZZBVHYHQIRUWBVHYHQ' appears to be encoded numbers."
+                    <strong>🔍 Frequency Analysis Hint:</strong><br>
+                    Notice the pattern in the highlighted line: "PTLQPZ PDNLL MKZPZ ELHZQ" - this appears to be encoded numbers. Look for the time Dr. Chen made her observation.
                 </div>
             </div>
             
-            <div class="cipher-tools">
-                <h3>🔧 Decryption Tools</h3>
+            <div class="cipher-station">
+                <h3>🔧 Advanced Cryptanalysis Station</h3>
                 
-                <div class="tool-section">
-                    <h4>Caesar Cipher Decoder</h4>
-                    <p>Adjust the shift value to decode Dr. Chen's message:</p>
-                    
-                    <div class="cipher-wheel">
-                        <div class="shift-control">
-                            <label>Shift Value: <span id="shift-value">3</span></label><br>
-                            <input type="range" class="shift-slider" id="shift-slider" min="1" max="25" value="3" oninput="updateShift()">
-                        </div>
-                        
-                        <div class="alphabet-row">
-                            <div class="letter-box original">A</div>
-                            <div class="letter-box original">B</div>
-                            <div class="letter-box original">C</div>
-                            <div class="letter-box original">D</div>
-                            <div class="letter-box original">E</div>
-                            <div class="letter-box original">F</div>
-                            <div class="letter-box original">G</div>
-                            <div class="letter-box original">H</div>
-                            <div class="letter-box original">I</div>
-                            <div class="letter-box original">J</div>
-                            <div class="letter-box original">K</div>
-                            <div class="letter-box original">L</div>
-                            <div class="letter-box original">M</div>
-                        </div>
-                        
-                        <div style="text-align: center; margin: 0.5rem 0;">↓ Shift by <span id="shift-display">3</span> ↓</div>
-                        
-                        <div class="alphabet-row" id="shifted-alphabet">
+                <div class="multi-cipher-tabs">
+                    <div class="cipher-tab active" onclick="switchTab('frequency')">Frequency</div>
+                    <div class="cipher-tab" onclick="switchTab('substitution')">Substitution</div>
+                    <div class="cipher-tab" onclick="switchTab('keyword')">Keyword</div>
+                    <div class="cipher-tab" onclick="switchTab('caesar')">Caesar</div>
+                </div>
+                
+                <!-- Frequency Analysis Tab -->
+                <div class="cipher-tool active" id="frequency-tool">
+                    <h4>Letter Frequency Analysis</h4>
+                    <p>Analyze the frequency of letters in the encrypted text:</p>
+                    <div class="frequency-analysis">
+                        <div class="letter-grid" id="frequency-grid">
                             <!-- Will be populated by JavaScript -->
                         </div>
-                        
-                        <div class="alphabet-row">
-                            <div class="letter-box original">N</div>
-                            <div class="letter-box original">O</div>
-                            <div class="letter-box original">P</div>
-                            <div class="letter-box original">Q</div>
-                            <div class="letter-box original">R</div>
-                            <div class="letter-box original">S</div>
-                            <div class="letter-box original">T</div>
-                            <div class="letter-box original">U</div>
-                            <div class="letter-box original">V</div>
-                            <div class="letter-box original">W</div>
-                            <div class="letter-box original">X</div>
-                            <div class="letter-box original">Y</div>
-                            <div class="letter-box original">Z</div>
-                        </div>
-                        
-                        <div class="alphabet-row" id="shifted-alphabet-2">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
+                        <button class="btn" onclick="analyzeFrequency()">Analyze Frequency</button>
+                    </div>
+                    <div class="hint-box">
+                        <strong>Tip:</strong> In English, the most common letters are E, T, A, O, I, N, S, H, R...
                     </div>
                 </div>
                 
-                <div class="decoder-area">
-                    <h4>Live Decoder</h4>
-                    <p>The encrypted text will be decoded automatically as you adjust the shift:</p>
-                    <textarea class="decoder-input" id="decoded-text" placeholder="Decoded message will appear here..." readonly></textarea>
-                    
-                    <div style="text-align: center; margin-top: 1rem;">
-                        <button class="btn" onclick="checkDecryption()">Verify Decryption</button>
-                        <button class="btn secondary" onclick="resetCipher()">Reset</button>
+                <!-- Manual Substitution Tab -->
+                <div class="cipher-tool" id="substitution-tool">
+                    <h4>Manual Letter Substitution</h4>
+                    <p>Map encrypted letters to their plaintext equivalents:</p>
+                    <div class="substitution-grid" id="substitution-grid">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <button class="btn" onclick="applySubstitution()">Apply Substitution</button>
+                    <button class="btn secondary" onclick="resetSubstitution()">Reset</button>
+                </div>
+                
+                <!-- Keyword Cipher Tab -->
+                <div class="cipher-tool" id="keyword-tool">
+                    <h4>Keyword Vigenère Cipher</h4>
+                    <p>Enter a keyword that Dr. Chen might have used (hint: think astronomical):</p>
+                    <input type="text" class="keyword-input" id="keyword-input" placeholder="Enter keyword (e.g., CONSTELLATION NAME)">
+                    <button class="btn" onclick="tryKeyword()">Test Keyword</button>
+                    <div class="hint-box">
+                        <strong>Astronomical Keywords to Try:</strong> ORION, TELESCOPE, MERIDIAN, OBSERVATORY, STELLAR, COSMIC, PLANETS
+                    </div>
+                </div>
+                
+                <!-- Caesar Cipher Tab -->
+                <div class="cipher-tool" id="caesar-tool">
+                    <h4>Caesar Shift Cipher</h4>
+                    <p>Try different shift values (hint: astronomical numbers):</p>
+                    <div style="text-align: center; margin: 1rem 0;">
+                        <label>Shift Value: <span id="shift-display">1</span></label><br>
+                        <input type="range" id="shift-slider" min="1" max="25" value="1" style="width: 200px; margin: 1rem;" oninput="updateCaesarShift()">
+                    </div>
+                    <button class="btn" onclick="applyCaesarShift()">Apply Shift</button>
+                    <div class="hint-box">
+                        <strong>Try These Values:</strong> 3 (traditional), 8 (planets), 13 (half alphabet), 7 (lucky number)
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="decoded-output" id="final-output">
-            <h3>✅ Successfully Decrypted!</h3>
-            <div id="decoded-message"></div>
-            <div style="margin-top: 1rem;">
-                <strong>Key Evidence Found:</strong> The critical time <span class="time-highlight">23:47</span>
+        <div class="decoder-workspace">
+            <h3>🔍 Decryption Workspace</h3>
+            <p>Your decrypted text will appear here as you work:</p>
+            <textarea class="workspace-input" id="workspace" placeholder="Partially decrypted text will appear here as you apply different cipher techniques..."></textarea>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="btn" onclick="checkFinalDecryption()">Verify Complete Decryption</button>
+                <button class="btn secondary" onclick="resetWorkspace()">Clear Workspace</button>
+                <button class="btn secondary" onclick="window.location.href='index.html'">Return to Archive</button>
             </div>
-            <p style="margin-top: 1rem;">This timestamp represents the exact moment when Dr. Chen observed the cosmic alignment at Meridian Station.</p>
         </div>
         
         <div id="result-message"></div>
-        
-        <div style="text-align: center; margin-top: 2rem;">
-            <button class="btn secondary" onclick="window.location.href='index.html'">Return to Main Archive</button>
-        </div>
     </div>
 
     <script>
-        const encryptedText = `WKH VWDUV DOLJQ DW WZZBVHYHQIRUWBVHYHQ
-RQ WKH QLJKW RI GLVFRYHUB
+        const encryptedText = `PDIJLW KZNL HFJBQ HL QBWQZ MJKZ MJKZBK SZNM
+KQ PDL QFJDP KM BFIWKZLNZ
 
-PHULGLDB VWDWLRQ KROGV WKH NHBV
-WR WKH FRVPLF JDWHZDB
+HLNFBFHQ WPHRFKQ DKQVL PDL FLZL
+PK PDL WKELFW JHPLTHR
 
-ZKHQ RULRQ ULVHV DW PLGQLJKW
-WKH SDWK RSHQV WR LQILQLWB
+TDLQ KNFKQ NFELL HP EFBQFJDP
+PDL RHPD KMLQL PK FQMFQFPZ
 
-WKLV LV PB ILQDO PHVVDJH
-- GU. FKHQ`;
+PDFK FE EZ MQHJ ELLHJL HP
+PTLQPZ PDNLL MKZPZ ELHZQ
+- BN. WDLQ`;
 
-        const correctDecryption = `THE STARS ALIGN AT TWENTYTHREEFORTYSEVEN
-ON THE NIGHT OF DISCOVERY
+        const correctDecryption = `TWENTY THREE FORTY SEVEN ON THE NIGHT OF DISCOVERY
 
 MERIDIAN STATION HOLDS THE KEYS
 TO THE COSMIC GATEWAY
@@ -413,131 +471,241 @@ TO THE COSMIC GATEWAY
 WHEN ORION RISES AT MIDNIGHT
 THE PATH OPENS TO INFINITY
 
-THIS IS MY FINAL MESSAGE
+THIS IS MY FINAL MESSAGE AT
+TWENTY THREE FORTY SEVEN
 - DR. CHEN`;
 
-        function caesarCipher(text, shift) {
-            return text.replace(/[A-Z]/g, function(char) {
-                const code = char.charCodeAt(0);
-                let shifted = ((code - 65 - shift + 26) % 26) + 65;
-                return String.fromCharCode(shifted);
+        let currentWorkspace = '';
+        
+        function switchTab(tabName) {
+            // Hide all tools
+            document.querySelectorAll('.cipher-tool').forEach(tool => {
+                tool.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.cipher-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tool and tab
+            document.getElementById(tabName + '-tool').classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function analyzeFrequency() {
+            const text = encryptedText.replace(/[^A-Z]/g, '');
+            const frequency = {};
+            
+            // Count letter frequencies
+            for (let char of text) {
+                frequency[char] = (frequency[char] || 0) + 1;
+            }
+            
+            // Sort by frequency
+            const sorted = Object.entries(frequency).sort((a, b) => b[1] - a[1]);
+            
+            const grid = document.getElementById('frequency-grid');
+            grid.innerHTML = '';
+            
+            sorted.forEach(([letter, count]) => {
+                const div = document.createElement('div');
+                div.className = 'letter-count';
+                div.innerHTML = `<strong>${letter}</strong><br>${count}`;
+                grid.appendChild(div);
             });
         }
-
-        function updateShift() {
-            const shift = parseInt(document.getElementById('shift-slider').value);
-            document.getElementById('shift-value').textContent = shift;
-            document.getElementById('shift-display').textContent = shift;
+        
+        function createSubstitutionGrid() {
+            const grid = document.getElementById('substitution-grid');
+            grid.innerHTML = '';
             
-            // Update alphabet display
-            updateAlphabetDisplay(shift);
-            
-            // Decode text
-            const decoded = caesarCipher(encryptedText, shift);
-            document.getElementById('decoded-text').value = decoded;
-        }
-
-        function updateAlphabetDisplay(shift) {
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const shifted1 = document.getElementById('shifted-alphabet');
-            const shifted2 = document.getElementById('shifted-alphabet-2');
             
-            shifted1.innerHTML = '';
-            shifted2.innerHTML = '';
-            
-            // First half (A-M)
-            for (let i = 0; i < 13; i++) {
-                const shiftedIndex = (i - shift + 26) % 26;
+            // Create header row
+            for (let letter of alphabet) {
                 const div = document.createElement('div');
-                div.className = 'letter-box shifted';
-                div.textContent = alphabet[shiftedIndex];
-                shifted1.appendChild(div);
+                div.className = 'sub-box';
+                div.textContent = letter;
+                grid.appendChild(div);
             }
             
-            // Second half (N-Z)
-            for (let i = 13; i < 26; i++) {
-                const shiftedIndex = (i - shift + 26) % 26;
-                const div = document.createElement('div');
-                div.className = 'letter-box shifted';
-                div.textContent = alphabet[shiftedIndex];
-                shifted2.appendChild(div);
+            // Create input row
+            for (let letter of alphabet) {
+                const input = document.createElement('input');
+                input.className = 'sub-input';
+                input.maxLength = 1;
+                input.dataset.original = letter;
+                grid.appendChild(input);
             }
         }
-
-        function checkDecryption() {
-            const currentDecoded = document.getElementById('decoded-text').value;
+        
+        function applySubstitution() {
+            const inputs = document.querySelectorAll('.sub-input');
+            let substituted = encryptedText;
+            
+            inputs.forEach(input => {
+                if (input.value) {
+                    const original = input.dataset.original;
+                    const replacement = input.value.toUpperCase();
+                    substituted = substituted.replace(new RegExp(original, 'g'), replacement);
+                }
+            });
+            
+            document.getElementById('workspace').value = substituted;
+            currentWorkspace = substituted;
+        }
+        
+        function resetSubstitution() {
+            document.querySelectorAll('.sub-input').forEach(input => {
+                input.value = '';
+            });
+        }
+        
+        function tryKeyword() {
+            const keyword = document.getElementById('keyword-input').value.toUpperCase();
+            if (!keyword) return;
+            
+            // Simple Vigenère decode attempt
+            let decoded = '';
+            let keyIndex = 0;
+            
+            for (let char of encryptedText) {
+                if (/[A-Z]/.test(char)) {
+                    const shift = keyword.charCodeAt(keyIndex % keyword.length) - 65;
+                    const decoded_char = String.fromCharCode(((char.charCodeAt(0) - 65 - shift + 26) % 26) + 65);
+                    decoded += decoded_char;
+                    keyIndex++;
+                } else {
+                    decoded += char;
+                }
+            }
+            
+            document.getElementById('workspace').value = decoded;
+            currentWorkspace = decoded;
+            
+            // Check if this looks like it's working
+            if (decoded.includes('THE ') || decoded.includes('AND ') || decoded.includes('TWENTY')) {
+                showHint("This keyword seems promising! Look for recognizable English words.");
+            }
+        }
+        
+        function updateCaesarShift() {
+            const shift = document.getElementById('shift-slider').value;
+            document.getElementById('shift-display').textContent = shift;
+        }
+        
+        function applyCaesarShift() {
+            const shift = parseInt(document.getElementById('shift-slider').value);
+            let decoded = '';
+            
+            for (let char of encryptedText) {
+                if (/[A-Z]/.test(char)) {
+                    const decoded_char = String.fromCharCode(((char.charCodeAt(0) - 65 - shift + 26) % 26) + 65);
+                    decoded += decoded_char;
+                } else {
+                    decoded += char;
+                }
+            }
+            
+            document.getElementById('workspace').value = decoded;
+            currentWorkspace = decoded;
+        }
+        
+        function checkFinalDecryption() {
+            const workspace = document.getElementById('workspace').value.trim().toUpperCase();
             const resultDiv = document.getElementById('result-message');
             
-            // Check if the decryption is correct (allowing for some variation in formatting)
-            const normalizedCurrent = currentDecoded.replace(/\s+/g, ' ').trim().toUpperCase();
-            const normalizedCorrect = correctDecryption.replace(/\s+/g, ' ').trim().toUpperCase();
+            // Check for the key time pattern
+            const hasTimePattern = workspace.includes('TWENTY THREE FORTY SEVEN') || 
+                                 workspace.includes('23:47') ||
+                                 workspace.includes('2347');
             
-            if (normalizedCurrent === normalizedCorrect) {
+            const hasKeyWords = workspace.includes('MERIDIAN') && 
+                              workspace.includes('ORION') && 
+                              workspace.includes('CHEN');
+            
+            if (hasTimePattern && hasKeyWords) {
                 resultDiv.className = 'result-message success';
                 resultDiv.innerHTML = `
                     <h3>🎉 Journal Successfully Decrypted!</h3>
-                    <p>Excellent work! You've successfully decoded Dr. Chen's final journal entry using a Caesar cipher with a shift of ${document.getElementById('shift-slider').value}.</p>
+                    <div class="time-reveal">23:47</div>
+                    <p>Excellent work! You've successfully decoded Dr. Chen's complex multi-cipher encryption.</p>
+                    <p><strong>Key Evidence Found:</strong> The time <strong>23:47</strong> - this represents the exact moment of Dr. Chen's cosmic discovery.</p>
+                    <p>The journal reveals that the stars aligned at exactly 23:47 on the night of her breakthrough observation.</p>
                 `;
-                
-                // Show final decoded output with highlighted time
-                showFinalOutput();
                 
                 // Save progress
                 localStorage.setItem('cipherPuzzleSolved', 'true');
                 localStorage.setItem('timeClue', '23:47');
                 
+            } else if (hasTimePattern) {
+                resultDiv.className = 'result-message error';
+                resultDiv.innerHTML = `
+                    <h3>⚠️ Partially Decrypted</h3>
+                    <p>You've found the time pattern, but the decryption isn't complete. Make sure all the text is properly decoded, including references to "MERIDIAN", "ORION", and "CHEN".</p>
+                `;
             } else {
                 resultDiv.className = 'result-message error';
                 resultDiv.innerHTML = `
                     <h3>❌ Decryption Incomplete</h3>
-                    <p>The message isn't fully decoded yet. Try adjusting the shift value. Remember, Dr. Chen used astronomical numbers - think about our solar system!</p>
-                    <p><em>Hint: How many planets were traditionally counted in our solar system?</em></p>
+                    <p>The journal hasn't been fully decrypted yet. Try combining multiple cipher techniques:</p>
+                    <ul style="text-align: left; margin-top: 1rem;">
+                        <li>Start with keyword substitution using "ORION"</li>
+                        <li>Then apply a Caesar shift of 8</li>
+                        <li>Look for the encoded time in the last stanza</li>
+                    </ul>
                 `;
             }
         }
-
-        function showFinalOutput() {
-            const finalOutput = document.getElementById('final-output');
-            const decodedMessage = document.getElementById('decoded-message');
-            
-            // Format the decoded message with time highlighting
-            const formattedMessage = correctDecryption
-                .replace('TWENTYTHREEFORTYSEVEN', '<span class="time-highlight">23:47</span>')
-                .replace(/\n/g, '<br>');
-            
-            decodedMessage.innerHTML = `<div style="font-family: 'Roboto Mono', monospace; line-height: 1.6;">${formattedMessage}</div>`;
-            finalOutput.style.display = 'block';
-            
-            // Scroll to result
-            finalOutput.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function resetCipher() {
-            document.getElementById('shift-slider').value = 3;
-            updateShift();
+        
+        function resetWorkspace() {
+            document.getElementById('workspace').value = '';
+            currentWorkspace = '';
             document.getElementById('result-message').innerHTML = '';
-            document.getElementById('final-output').style.display = 'none';
         }
-
+        
+        function showHint(message) {
+            const hint = document.createElement('div');
+            hint.className = 'hint-box';
+            hint.innerHTML = `<strong>💡 Hint:</strong> ${message}`;
+            hint.style.position = 'fixed';
+            hint.style.top = '20px';
+            hint.style.right = '20px';
+            hint.style.zIndex = '1000';
+            hint.style.maxWidth = '300px';
+            document.body.appendChild(hint);
+            
+            setTimeout(() => hint.remove(), 5000);
+        }
+        
         // Initialize
         window.addEventListener('load', () => {
-            updateShift();
+            createSubstitutionGrid();
+            analyzeFrequency();
             
-            // Check if puzzle was already solved
+            // Check if already solved
             if (localStorage.getItem('cipherPuzzleSolved') === 'true') {
-                // Set correct shift value and show solution
-                document.getElementById('shift-slider').value = 3;
-                updateShift();
-                
                 const resultDiv = document.getElementById('result-message');
                 resultDiv.className = 'result-message success';
                 resultDiv.innerHTML = `
                     <h3>✅ Previously Solved</h3>
+                    <div class="time-reveal">23:47</div>
                     <p>You have already decrypted Dr. Chen's journal. The time evidence (23:47) has been recorded.</p>
                 `;
-                
-                showFinalOutput();
             }
+            
+            // Provide subtle hint after 30 seconds
+            setTimeout(() => {
+                if (!localStorage.getItem('cipherPuzzleSolved')) {
+                    showHint("Try using 'ORION' as a keyword cipher first, then apply a Caesar shift...");
+                }
+            }, 30000);
+        });
+        
+        // Auto-save workspace
+        document.getElementById('workspace').addEventListener('input', (e) => {
+            currentWorkspace = e.target.value;
         });
     </script>
 </body>
