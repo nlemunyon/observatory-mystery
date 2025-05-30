@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Photo Archive - The Lost Observatory</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 15px #00ff88;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #88ffaa;
+            font-size: 1.1rem;
+        }
+        
+        .puzzle-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .photo-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stellar-photo {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 3px solid #00ff88;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .star-field {
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle, #001122 0%, #000000 100%);
+            position: relative;
+            cursor: crosshair;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .star:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 15px white;
+        }
+        
+        .star.clickable {
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        
+        .star.selected {
+            background: #00ff88;
+            box-shadow: 0 0 20px #00ff88;
+            transform: scale(1.8);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .constellation-line {
+            position: absolute;
+            background: #00ff88;
+            height: 2px;
+            transform-origin: left center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .constellation-line.visible {
+            opacity: 0.8;
+        }
+        
+        .analysis-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .log-entry {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid #00ff88;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .timestamp {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hint-box {
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #ffff88;
+        }
+        
+        .answer-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .input-group {
+            margin: 1rem 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 5px;
+            padding: 0.8rem;
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            width: 200px;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #88ffaa);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(45deg, #666, #888);
+        }
+        
+        .result-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+        
+        .error {
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid #ff6464;
+            color: #ff6464;
+        }
+        
+        .selected-count {
+            color: #88ffaa;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .puzzle-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">📸 RESEARCH PHOTO ARCHIVE</h1>
+            <p class="subtitle">Entry #2847 - Final Observation</p>
+        </div>
+        
+        <div class="puzzle-content">
+            <div class="photo-section">
+                <h3 style="margin-bottom: 1rem;">Stellar Photograph Analysis</h3>
+                <div class="stellar-photo">
+                    <div class="star-field" id="star-field">
+                        <!-- Stars will be generated by JavaScript -->
+                    </div>
+                </div>
+                <div class="selected-count" id="selected-count">
+                    Selected Stars: 0 | Pattern Progress: 0%
+                </div>
+                <button class="btn" onclick="resetSelection()">Reset Selection</button>
+            </div>
+            
+            <div class="analysis-section">
+                <h3 style="margin-bottom: 1rem;">Dr. Chen's Research Notes</h3>
+                
+                <div class="log-entry">
+                    <div class="timestamp">1987-11-15 23:47:32 UTC</div>
+                    <p><strong>Final Observation Log:</strong></p>
+                    <p>"The star pattern is becoming clear. The ancient Greeks knew this hunter well. Connect the brightest points in the correct sequence, and the constellation reveals its name."</p>
+                </div>
+                
+                <div class="log-entry">
+                    <div class="timestamp">1987-11-15 23:52:18 UTC</div>
+                    <p><strong>Cryptographic Note:</strong></p>
+                    <p>"Seven stars form the pattern. Start with the brightest and work clockwise. The hunter's belt is the key - three stars in perfect alignment."</p>
+                </div>
+                
+                <div class="hint-box">
+                    <strong>💡 Analysis Hint:</strong><br>
+                    Look for the brightest stars in the photograph. One famous constellation is known as "The Hunter" in Greek mythology. Click on stars to connect them and reveal the pattern.
+                </div>
+                
+                <div class="log-entry">
+                    <div class="timestamp">1987-11-15 23:58:44 UTC</div>
+                    <p><strong>Final Entry:</strong></p>
+                    <p>"When the hunter rises at midnight, the cosmic gateway aligns. This constellation holds the first key to understanding what we discovered at Meridian Station."</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="answer-section">
+            <h3>Constellation Identification</h3>
+            <p>Once you've identified the pattern in the stars, enter the name of the constellation:</p>
+            
+            <div class="input-group">
+                <label for="constellation-answer">Constellation Name:</label>
+                <input type="text" id="constellation-answer" placeholder="Enter constellation name" maxlength="20">
+            </div>
+            
+            <button class="btn" onclick="checkAnswer()">Submit Analysis</button>
+            <button class="btn secondary" onclick="window.location.href='index.html'">Return to Main</button>
+            
+            <div id="result-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // Orion constellation coordinates (scaled to fit our star field)
+        const orionStars = [
+            { x: 50, y: 80, size: 8, name: 'Betelgeuse', key: true },     // Shoulder
+            { x: 80, y: 120, size: 6, name: 'Bellatrix', key: true },     // Shoulder
+            { x: 120, y: 200, size: 4, name: 'Alnitak', key: true },      // Belt
+            { x: 140, y: 210, size: 5, name: 'Alnilam', key: true },      // Belt
+            { x: 160, y: 220, size: 4, name: 'Mintaka', key: true },      // Belt
+            { x: 200, y: 300, size: 6, name: 'Saiph', key: true },        // Hip
+            { x: 180, y: 320, size: 7, name: 'Rigel', key: true }         // Foot
+        ];
+        
+        // Random background stars
+        const backgroundStars = [];
+        for (let i = 0; i < 50; i++) {
+            backgroundStars.push({
+                x: Math.random() * 400,
+                y: Math.random() * 400,
+                size: Math.random() * 3 + 1,
+                key: false
+            });
+        }
+        
+        const allStars = [...orionStars, ...backgroundStars];
+        let selectedStars = [];
+        let constellationLines = [];
+        
+        function createStarField() {
+            const starField = document.getElementById('star-field');
+            starField.innerHTML = '';
+            
+            allStars.forEach((star, index) => {
+                const starElement = document.createElement('div');
+                starElement.className = star.key ? 'star clickable' : 'star';
+                starElement.style.left = star.x + 'px';
+                starElement.style.top = star.y + 'px';
+                starElement.style.width = star.size + 'px';
+                starElement.style.height = star.size + 'px';
+                starElement.dataset.index = index;
+                
+                if (star.key) {
+                    starElement.addEventListener('click', () => selectStar(index, starElement));
+                }
+                
+                starField.appendChild(starElement);
+            });
+        }
+        
+        function selectStar(index, element) {
+            const star = allStars[index];
+            
+            if (selectedStars.includes(index)) {
+                // Deselect star
+                selectedStars = selectedStars.filter(i => i !== index);
+                element.classList.remove('selected');
+            } else {
+                // Select star
+                selectedStars.push(index);
+                element.classList.add('selected');
+            }
+            
+            updateConstellationLines();
+            updateProgress();
+        }
+        
+        function updateConstellationLines() {
+            // Clear existing lines
+            constellationLines.forEach(line => line.remove());
+            constellationLines = [];
+            
+            // Draw lines between selected stars
+            if (selectedStars.length > 1) {
+                const starField = document.getElementById('star-field');
+                
+                for (let i = 0; i < selectedStars.length - 1; i++) {
+                    const star1 = allStars[selectedStars[i]];
+                    const star2 = allStars[selectedStars[i + 1]];
+                    
+                    const line = document.createElement('div');
+                    line.className = 'constellation-line visible';
+                    
+                    const dx = star2.x - star1.x;
+                    const dy = star2.y - star1.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                    
+                    line.style.left = star1.x + 'px';
+                    line.style.top = star1.y + 'px';
+                    line.style.width = distance + 'px';
+                    line.style.transform = `rotate(${angle}deg)`;
+                    
+                    starField.appendChild(line);
+                    constellationLines.push(line);
+                }
+            }
+        }
+        
+        function updateProgress() {
+            const totalOrionStars = orionStars.length;
+            const selectedOrionStars = selectedStars.filter(index => allStars[index].key).length;
+            const progress = Math.round((selectedOrionStars / totalOrionStars) * 100);
+            
+            document.getElementById('selected-count').textContent = 
+                `Selected Stars: ${selectedStars.length} | Pattern Progress: ${progress}%`;
+        }
+        
+        function resetSelection() {
+            selectedStars = [];
+            constellationLines.forEach(line => line.remove());
+            constellationLines = [];
+            
+            document.querySelectorAll('.star.selected').forEach(star => {
+                star.classList.remove('selected');
+            });
+            
+            updateProgress();
+        }
+        
+        function checkAnswer() {
+            const answer = document.getElementById('constellation-answer').value.trim().toLowerCase();
+            const resultDiv = document.getElementById('result-message');
+            
+            if (answer === 'orion' || answer === 'the hunter') {
+                resultDiv.className = 'result-message success';
+                resultDiv.innerHTML = `
+                    <h3>🎉 Constellation Identified!</h3>
+                    <p><strong>ORION</strong> - The Hunter constellation has been successfully identified!</p>
+                    <p>Dr. Chen's note: "When Orion rises at midnight, the gateway opens."</p>
+                    <p><strong>Key Evidence Collected:</strong> ORION</p>
+                    <p>This is the first piece of the final puzzle. Return to the main archive to continue your investigation.</p>
+                `;
+                
+                // Save progress
+                localStorage.setItem('imagePuzzleSolved', 'true');
+                localStorage.setItem('orionClue', 'ORION');
+                
+                // Add success animation
+                setTimeout(() => {
+                    document.querySelectorAll('.star.clickable').forEach(star => {
+                        star.style.animation = 'pulse 0.5s ease-in-out 3';
+                    });
+                }, 500);
+                
+            } else {
+                resultDiv.className = 'result-message error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Incorrect Identification</h3>
+                    <p>The constellation pattern doesn't match "${answer}". Remember, you're looking for "The Hunter" mentioned in Dr. Chen's notes.</p>
+                    <p>Hint: This constellation is one of the most recognizable in the night sky, known for its distinctive belt of three stars.</p>
+                `;
+            }
+        }
+        
+        // Initialize the star field when page loads
+        window.addEventListener('load', () => {
+            createStarField();
+            
+            // Check if puzzle was already solved
+            if (localStorage.getItem('imagePuzzleSolved') === 'true') {
+                const resultDiv = document.getElementById('result-message');
+                resultDiv.className = 'result-message success';
+                resultDiv.innerHTML = `
+                    <h3>✅ Previously Solved</h3>
+                    <p>You have already identified the ORION constellation. The evidence has been recorded.</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatory Network - The Lost Observatory</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 15px #00ff88;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #88ffaa;
+            font-size: 1.1rem;
+        }
+        
+        .mission-brief {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .trail-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .clue-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .clue-card.locked {
+            opacity: 0.5;
+            border-color: #666;
+        }
+        
+        .clue-card.solved {
+            border-color: #88ffaa;
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .clue-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #00ff88;
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .clue-text {
+            font-style: italic;
+            margin: 1rem 0;
+            line-height: 1.6;
+            background: rgba(255, 255, 136, 0.1);
+            padding: 1rem;
+            border-left: 4px solid #ffff88;
+            border-radius: 5px;
+        }
+        
+        .input-group {
+            margin: 1rem 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 5px;
+            padding: 0.8rem;
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #88ffaa);
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(45deg, #666, #888);
+        }
+        
+        .result-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+        
+        .error {
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid #ff6464;
+            color: #ff6464;
+        }
+        
+        .world-map {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .map-container {
+            background: #001122;
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .location-marker {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff6464;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff6464;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+        }
+        
+        .location-marker.found {
+            background: #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+        }
+        
+        .progress-tracker {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            background: #333;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #00ff88, #88ffaa);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .final-analysis {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .pattern-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: #00ff88;
+            letter-spacing: 1rem;
+            margin: 1rem 0;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        
+        @media (max-width: 768px) {
+            .trail-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🌍 OBSERVATORY NETWORK</h1>
+            <p class="subtitle">Dr. Chen's Research Trail Analysis</p>
+        </div>
+        
+        <div class="mission-brief">
+            <h3>Mission: Trace Dr. Chen's Journey</h3>
+            <p>Before establishing Meridian Station, Dr. Chen traveled to three key observatories around the world. Each location provided crucial data for her final project. Follow her research trail by solving the location clues in sequence.</p>
+        </div>
+        
+        <div class="progress-tracker">
+            <h3>Trail Progress</h3>
+            <p>Locations Discovered: <span id="progress-count">0</span>/3</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <div class="trail-section">
+            <div class="clue-card" id="clue-1">
+                <div class="clue-number">1</div>
+                <h3>First Observatory</h3>
+                <div class="clue-text">
+                    "My journey began at the place where Galileo's students still gaze upward, in the floating city of bridges and gondolas. The ancient observatory stands on an island where Renaissance astronomy was born."
+                </div>
+                <div class="input-group">
+                    <label for="location-1">City Name:</label>
+                    <input type="text" id="location-1" placeholder="Enter city name">
+                </div>
+                <button class="btn" onclick="checkLocation(1)">Submit Location</button>
+                <div id="result-1"></div>
+            </div>
+            
+            <div class="clue-card locked" id="clue-2">
+                <div class="clue-number">2</div>
+                <h3>Second Observatory</h3>
+                <div class="clue-text">
+                    "Next, I climbed to the mountain home of the ancient gods, where modern telescopes pierce the Mediterranean sky at 2,917 meters above sea level. Zeus himself would approve of this vantage point."
+                </div>
+                <div class="input-group">
+                    <label for="location-2">Mountain/Location:</label>
+                    <input type="text" id="location-2" placeholder="Enter location name" disabled>
+                </div>
+                <button class="btn" onclick="checkLocation(2)" disabled>Submit Location</button>
+                <div id="result-2"></div>
+            </div>
+            
+            <div class="clue-card locked" id="clue-3">
+                <div class="clue-number">3</div>
+                <h3>Third Observatory</h3>
+                <div class="clue-text">
+                    "Finally, I traveled to the southern hemisphere's premier dark-sky location, where the Milky Way blazes overhead in the world's driest non-polar desert. Here, giant eyes scan the cosmos from the plateau of the Andes."
+                </div>
+                <div class="input-group">
+                    <label for="location-3">Country/Region:</label>
+                    <input type="text" id="location-3" placeholder="Enter country or region" disabled>
+                </div>
+                <button class="btn" onclick="checkLocation(3)" disabled>Submit Location</button>
+                <div id="result-3"></div>
+            </div>
+            
+            <div class="world-map">
+                <h3>Research Trail Map</h3>
+                <div class="map-container">
+                    <div style="color: #666; font-size: 1.2rem;">
+                        🗺️ Interactive map will populate as you discover locations
+                    </div>
+                    <!-- Location markers will be added by JavaScript -->
+                </div>
+                <p style="margin-top: 1rem; color: #888;">Track your progress as you uncover Dr. Chen's global research network</p>
+            </div>
+        </div>
+        
+        <div class="final-analysis" id="final-analysis">
+            <h3>🔍 Pattern Analysis Complete</h3>
+            <p>You've successfully traced Dr. Chen's research trail. The first letters of each location spell out a hidden message:</p>
+            
+            <div class="pattern-display" id="pattern-display">
+                V - O - ?
+            </div>
+            
+            <p>But there's more to discover. The coordinates and timing data from these locations reveal the crucial year:</p>
+            
+            <div class="pattern-display" style="font-size: 3rem; color: #ff6464;">
+                1987
+            </div>
+            
+            <p><strong>Key Evidence Collected:</strong> The year <strong>1987</strong></p>
+            <p>This represents the year Dr. Chen made her groundbreaking discovery at Meridian Station.</p>
+            
+            <button class="btn" onclick="window.location.href='index.html'">Return to Main Archive</button>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="btn secondary" onclick="window.location.href='index.html'">Return to Main Archive</button>
+        </div>
+    </div>
+
+    <script>
+        const locations = [
+            {
+                answers: ['venice', 'venezia', 'venice italy'],
+                letter: 'V',
+                fullName: 'Venice, Italy',
+                description: 'The floating city where Galileo taught and astronomical traditions began.'
+            },
+            {
+                answers: ['olympus', 'mount olympus', 'mount olympus greece', 'olympus greece'],
+                letter: 'O',
+                fullName: 'Mount Olympus, Greece', 
+                description: 'Home of the gods and modern astronomical research station.'
+            },
+            {
+                answers: ['chile', 'atacama', 'atacama desert', 'chile atacama'],
+                letter: 'C',
+                fullName: 'Atacama Desert, Chile',
+                description: 'World\'s premier astronomical observation site in the southern hemisphere.'
+            }
+        ];
+        
+        let solvedLocations = 0;
+        let discoveredLetters = [];
+        
+        function checkLocation(clueNumber) {
+            const input = document.getElementById(`location-${clueNumber}`);
+            const result = document.getElementById(`result-${clueNumber}`);
+            const answer = input.value.trim().toLowerCase();
+            
+            const location = locations[clueNumber - 1];
+            const isCorrect = location.answers.some(ans => answer.includes(ans));
+            
+            if (isCorrect) {
+                result.className = 'result-message success';
+                result.innerHTML = `
+                    <h4>✅ Location Confirmed!</h4>
+                    <p><strong>${location.fullName}</strong></p>
+                    <p>${location.description}</p>
+                    <p>Letter collected: <strong>${location.letter}</strong></p>
+                `;
+                
+                // Mark as solved
+                document.getElementById(`clue-${clueNumber}`).classList.add('solved');
+                input.disabled = true;
+                document.querySelector(`#clue-${clueNumber} .btn`).disabled = true;
+                
+                solvedLocations++;
+                discoveredLetters.push(location.letter);
+                updateProgress();
+                
+                // Unlock next clue
+                if (clueNumber < 3) {
+                    unlockNextClue(clueNumber + 1);
+                }
+                
+                // Show final analysis if all solved
+                if (solvedLocations === 3) {
+                    showFinalAnalysis();
+                }
+                
+            } else {
+                result.className = 'result-message error';
+                result.innerHTML = `
+                    <h4>❌ Incorrect Location</h4>
+                    <p>That doesn't match Dr. Chen's notes. Read the clue carefully and consider the historical and geographical hints.</p>
+                `;
+            }
+        }
+        
+        function unlockNextClue(clueNumber) {
+            const clueCard = document.getElementById(`clue-${clueNumber}`);
+            const input = document.getElementById(`location-${clueNumber}`);
+            const button = clueCard.querySelector('.btn');
+            
+            clueCard.classList.remove('locked');
+            input.disabled = false;
+            button.disabled = false;
+        }
+        
+        function updateProgress() {
+            document.getElementById('progress-count').textContent = solvedLocations;
+            document.getElementById('progress-fill').style.width = (solvedLocations / 3) * 100 + '%';
+        }
+        
+        function showFinalAnalysis() {
+            const finalAnalysis = document.getElementById('final-analysis');
+            const patternDisplay = document.getElementById('pattern-display');
+            
+            // Show the complete letter pattern
+            patternDisplay.textContent = discoveredLetters.join(' - ');
+            
+            // Display final analysis
+            finalAnalysis.style.display = 'block';
+            
+            // Scroll to final analysis
+            finalAnalysis.scrollIntoView({ behavior: 'smooth' });
+            
+            // Save progress
+            localStorage.setItem('locationPuzzleSolved', 'true');
+            localStorage.setItem('yearClue', '1987');
+            
+            // Add celebration effect
+            setTimeout(() => {
+                patternDisplay.style.animation = 'glow 1s ease-in-out 3';
+            }, 1000);
+        }
+        
+        // Check if puzzle was already solved
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('locationPuzzleSolved') === 'true') {
+                // Auto-solve all locations and show final analysis
+                locations.forEach((location, index) => {
+                    const clueNumber = index + 1;
+                    const result = document.getElementById(`result-${clueNumber}`);
+                    const clueCard = document.getElementById(`clue-${clueNumber}`);
+                    
+                    result.className = 'result-message success';
+                    result.innerHTML = `
+                        <h4>✅ Previously Solved</h4>
+                        <p><strong>${location.fullName}</strong></p>
+                        <p>Letter: <strong>${location.letter}</strong></p>
+                    `;
+                    
+                    clueCard.classList.add('solved');
+                    clueCard.classList.remove('locked');
+                    
+                    discoveredLetters.push(location.letter);
+                });
+                
+                solvedLocations = 3;
+                updateProgress();
+                showFinalAnalysis();
+            }
+        });
+    </script>
+</body>
+</html>

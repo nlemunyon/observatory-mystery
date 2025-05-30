@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lost Observatory</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+            margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ff88; }
+            to { text-shadow: 0 0 30px #00ff88, 0 0 40px #00ff88; }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #88ffaa;
+            margin-bottom: 2rem;
+        }
+        
+        .story {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+        
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .puzzle-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05));
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .puzzle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.3);
+            border-color: #88ffaa;
+        }
+        
+        .puzzle-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+        
+        .puzzle-card p {
+            margin-bottom: 1.5rem;
+            color: #cccccc;
+        }
+        
+        .puzzle-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+            border: 2px solid #666;
+            transition: all 0.3s ease;
+        }
+        
+        .puzzle-status.solved {
+            background: #00ff88;
+            border-color: #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+        }
+        
+        .final-puzzle {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.1), rgba(255, 50, 50, 0.05));
+            border: 2px solid #ff6464;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .final-puzzle.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .final-puzzle h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #ff6464;
+        }
+        
+        .progress-tracker {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            background: #333;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #00ff88, #88ffaa);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .instructions {
+            background: rgba(0, 0, 0, 0.7);
+            border-left: 4px solid #00ff88;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #88ffaa);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">THE LOST OBSERVATORY</h1>
+            <p class="subtitle">Can you uncover what happened at Meridian Station?</p>
+        </div>
+        
+        <div class="story">
+            <p><strong>Mission Brief:</strong></p>
+            <p>In 1987, the remote Meridian Observatory went silent during a critical deep-space observation. The last transmission was garbled and incomplete. Dr. Elena Chen, the station's lead astronomer, left behind encrypted research files before mysteriously disappearing.</p>
+            <p>Decades later, you've gained access to the facility's digital archives. Three research mysteries must be solved to decode their final message. Each puzzle will reveal a crucial piece of information needed to unlock the truth.</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>🔍 Investigation Protocol:</h3>
+            <ul>
+                <li>Solve the three research mysteries in any order</li>
+                <li>Each puzzle will provide a key piece of evidence</li>
+                <li>Record your findings - all three are needed for the final decryption</li>
+                <li>Some puzzles may require external tools or careful observation</li>
+                <li>Look for hidden patterns, spatial relationships, and encrypted messages</li>
+            </ul>
+        </div>
+        
+        <div class="progress-tracker">
+            <h3>Investigation Status</h3>
+            <p>Mysteries Solved: <span id="progress-count">0</span>/3</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <div class="puzzle-grid">
+            <div class="puzzle-card" onclick="window.location.href='image-puzzle.html'">
+                <div class="puzzle-status" id="image-status"></div>
+                <h3>📸 Research Photo Archive</h3>
+                <p>Analyze Dr. Chen's final stellar photograph. The stars themselves may hold the key to understanding her discovery.</p>
+                <p><em>"The pattern reveals the hunter's secret"</em></p>
+                <a href="image-puzzle.html" class="btn">Enter Archive</a>
+            </div>
+            
+            <div class="puzzle-card" onclick="window.location.href='location-puzzle.html'">
+                <div class="puzzle-status" id="location-status"></div>
+                <h3>🌍 Observatory Network</h3>
+                <p>Follow Dr. Chen's research trail across the globe. Her journey to establish Meridian Station holds crucial clues.</p>
+                <p><em>"The path of discovery leads to the moment of truth"</em></p>
+                <a href="location-puzzle.html" class="btn">Trace Route</a>
+            </div>
+            
+            <div class="puzzle-card" onclick="window.location.href='cipher-puzzle.html'">
+                <div class="puzzle-status" id="cipher-status"></div>
+                <h3>📜 Dr. Chen's Journal</h3>
+                <p>Decrypt the final entry in Dr. Chen's personal research journal. Ancient ciphers protect modern secrets.</p>
+                <p><em>"When the stars align, the gateway opens"</em></p>
+                <a href="cipher-puzzle.html" class="btn">Read Journal</a>
+            </div>
+        </div>
+        
+        <div class="final-puzzle locked" id="final-puzzle">
+            <h3>🔐 THE FINAL TRANSMISSION</h3>
+            <p>Dr. Chen's last encrypted message awaits. Only those who have uncovered all three mysteries can decode the truth about Meridian Station.</p>
+            <p id="final-status">Solve all three puzzles to unlock the final transmission.</p>
+            <a href="final-puzzle.html" class="btn" id="final-btn" disabled>Access Transmission</a>
+        </div>
+    </div>
+
+    <script>
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Check puzzle completion status
+        function checkPuzzleStatus() {
+            const imageSolved = localStorage.getItem('imagePuzzleSolved') === 'true';
+            const locationSolved = localStorage.getItem('locationPuzzleSolved') === 'true';
+            const cipherSolved = localStorage.getItem('cipherPuzzleSolved') === 'true';
+            
+            // Update status indicators
+            if (imageSolved) {
+                document.getElementById('image-status').classList.add('solved');
+            }
+            if (locationSolved) {
+                document.getElementById('location-status').classList.add('solved');
+            }
+            if (cipherSolved) {
+                document.getElementById('cipher-status').classList.add('solved');
+            }
+            
+            // Update progress
+            const solved = [imageSolved, locationSolved, cipherSolved].filter(Boolean).length;
+            document.getElementById('progress-count').textContent = solved;
+            document.getElementById('progress-fill').style.width = (solved / 3) * 100 + '%';
+            
+            // Check if final puzzle should be unlocked
+            if (solved === 3) {
+                const finalPuzzle = document.getElementById('final-puzzle');
+                const finalBtn = document.getElementById('final-btn');
+                const finalStatus = document.getElementById('final-status');
+                
+                finalPuzzle.classList.remove('locked');
+                finalBtn.disabled = false;
+                finalBtn.style.opacity = '1';
+                finalStatus.textContent = 'All mysteries solved! The final transmission is now accessible.';
+                finalStatus.style.color = '#00ff88';
+            }
+        }
+        
+        // Initialize page
+        window.addEventListener('load', () => {
+            createStars();
+            checkPuzzleStatus();
+        });
+        
+        // Update status when returning to page
+        window.addEventListener('focus', checkPuzzleStatus);
+    </script>
+</body>
+</html>

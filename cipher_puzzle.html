@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Chen's Journal - The Lost Observatory</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 15px #00ff88;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #88ffaa;
+            font-size: 1.1rem;
+        }
+        
+        .journal-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .journal-page {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .journal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #00ff88;
+            padding-bottom: 1rem;
+        }
+        
+        .journal-date {
+            color: #88ffaa;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .encrypted-text {
+            background: rgba(255, 255, 136, 0.1);
+            border: 1px solid #ffff88;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            color: #ffff88;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .cipher-tools {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .tool-section {
+            margin-bottom: 2rem;
+        }
+        
+        .cipher-wheel {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .alphabet-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .letter-box {
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff88;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .letter-box.original {
+            background: rgba(255, 255, 136, 0.2);
+            color: #ffff88;
+        }
+        
+        .letter-box.shifted {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+        
+        .shift-control {
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .shift-slider {
+            width: 200px;
+            margin: 0 1rem;
+            background: #333;
+            border-radius: 10px;
+            height: 8px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .shift-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00ff88;
+            cursor: pointer;
+        }
+        
+        .decoder-area {
+            margin-top: 2rem;
+        }
+        
+        .decoder-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #00ff88;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        .hint-box {
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #ffff88;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #88ffaa);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(45deg, #666, #888);
+        }
+        
+        .result-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+        
+        .error {
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid #ff6464;
+            color: #ff6464;
+        }
+        
+        .decoded-output {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-family: 'Roboto Mono', monospace;
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .time-highlight {
+            background: rgba(255, 100, 100, 0.3);
+            color: #ff6464;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .journal-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .alphabet-row {
+                gap: 4px;
+            }
+            
+            .letter-box {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">📜 DR. CHEN'S JOURNAL</h1>
+            <p class="subtitle">Personal Research Log - Final Entry</p>
+        </div>
+        
+        <div class="journal-layout">
+            <div class="journal-page">
+                <div class="journal-header">
+                    <div class="journal-date">Research Log Entry #2847</div>
+                    <div class="journal-date">November 15, 1987 - 23:47 UTC</div>
+                    <h3>CLASSIFIED - COSMIC ALIGNMENT PROJECT</h3>
+                </div>
+                
+                <div class="encrypted-text" id="encrypted-text">
+                    WKH VWDUV DOLJQ DW WZZBVHYHQIRUWBVHYHQ<br>
+                    RQ WKH QLJKW RI GLVFRYHUB<br><br>
+                    PHULGLDB VWDWLRQ KROGV WKH NHBV<br>
+                    WR WKH FRVPLF JDWHZDB<br><br>
+                    ZKHQ RULRQ ULVHV DW PLGQLJKW<br>
+                    WKH SDWK RSHQV WR LQILQLWB<br><br>
+                    WKLV LV PB ILQDO PHVVDJH<br>
+                    - GU. FKHQ
+                </div>
+                
+                <div class="hint-box">
+                    <strong>🔍 Cryptographer's Note:</strong><br>
+                    "Dr. Chen was known to use classical encryption methods. She often referenced astronomical numbers in her ciphers. The shift value might relate to our solar system..."
+                </div>
+                
+                <div class="hint-box">
+                    <strong>💡 Additional Clue:</strong><br>
+                    "Look for patterns in the text. Some words might be time indicators. The number sequence 'WZZBVHYHQIRUWBVHYHQ' appears to be encoded numbers."
+                </div>
+            </div>
+            
+            <div class="cipher-tools">
+                <h3>🔧 Decryption Tools</h3>
+                
+                <div class="tool-section">
+                    <h4>Caesar Cipher Decoder</h4>
+                    <p>Adjust the shift value to decode Dr. Chen's message:</p>
+                    
+                    <div class="cipher-wheel">
+                        <div class="shift-control">
+                            <label>Shift Value: <span id="shift-value">3</span></label><br>
+                            <input type="range" class="shift-slider" id="shift-slider" min="1" max="25" value="3" oninput="updateShift()">
+                        </div>
+                        
+                        <div class="alphabet-row">
+                            <div class="letter-box original">A</div>
+                            <div class="letter-box original">B</div>
+                            <div class="letter-box original">C</div>
+                            <div class="letter-box original">D</div>
+                            <div class="letter-box original">E</div>
+                            <div class="letter-box original">F</div>
+                            <div class="letter-box original">G</div>
+                            <div class="letter-box original">H</div>
+                            <div class="letter-box original">I</div>
+                            <div class="letter-box original">J</div>
+                            <div class="letter-box original">K</div>
+                            <div class="letter-box original">L</div>
+                            <div class="letter-box original">M</div>
+                        </div>
+                        
+                        <div style="text-align: center; margin: 0.5rem 0;">↓ Shift by <span id="shift-display">3</span> ↓</div>
+                        
+                        <div class="alphabet-row" id="shifted-alphabet">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="alphabet-row">
+                            <div class="letter-box original">N</div>
+                            <div class="letter-box original">O</div>
+                            <div class="letter-box original">P</div>
+                            <div class="letter-box original">Q</div>
+                            <div class="letter-box original">R</div>
+                            <div class="letter-box original">S</div>
+                            <div class="letter-box original">T</div>
+                            <div class="letter-box original">U</div>
+                            <div class="letter-box original">V</div>
+                            <div class="letter-box original">W</div>
+                            <div class="letter-box original">X</div>
+                            <div class="letter-box original">Y</div>
+                            <div class="letter-box original">Z</div>
+                        </div>
+                        
+                        <div class="alphabet-row" id="shifted-alphabet-2">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="decoder-area">
+                    <h4>Live Decoder</h4>
+                    <p>The encrypted text will be decoded automatically as you adjust the shift:</p>
+                    <textarea class="decoder-input" id="decoded-text" placeholder="Decoded message will appear here..." readonly></textarea>
+                    
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="btn" onclick="checkDecryption()">Verify Decryption</button>
+                        <button class="btn secondary" onclick="resetCipher()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="decoded-output" id="final-output">
+            <h3>✅ Successfully Decrypted!</h3>
+            <div id="decoded-message"></div>
+            <div style="margin-top: 1rem;">
+                <strong>Key Evidence Found:</strong> The critical time <span class="time-highlight">23:47</span>
+            </div>
+            <p style="margin-top: 1rem;">This timestamp represents the exact moment when Dr. Chen observed the cosmic alignment at Meridian Station.</p>
+        </div>
+        
+        <div id="result-message"></div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="btn secondary" onclick="window.location.href='index.html'">Return to Main Archive</button>
+        </div>
+    </div>
+
+    <script>
+        const encryptedText = `WKH VWDUV DOLJQ DW WZZBVHYHQIRUWBVHYHQ
+RQ WKH QLJKW RI GLVFRYHUB
+
+PHULGLDB VWDWLRQ KROGV WKH NHBV
+WR WKH FRVPLF JDWHZDB
+
+ZKHQ RULRQ ULVHV DW PLGQLJKW
+WKH SDWK RSHQV WR LQILQLWB
+
+WKLV LV PB ILQDO PHVVDJH
+- GU. FKHQ`;
+
+        const correctDecryption = `THE STARS ALIGN AT TWENTYTHREEFORTYSEVEN
+ON THE NIGHT OF DISCOVERY
+
+MERIDIAN STATION HOLDS THE KEYS
+TO THE COSMIC GATEWAY
+
+WHEN ORION RISES AT MIDNIGHT
+THE PATH OPENS TO INFINITY
+
+THIS IS MY FINAL MESSAGE
+- DR. CHEN`;
+
+        function caesarCipher(text, shift) {
+            return text.replace(/[A-Z]/g, function(char) {
+                const code = char.charCodeAt(0);
+                let shifted = ((code - 65 - shift + 26) % 26) + 65;
+                return String.fromCharCode(shifted);
+            });
+        }
+
+        function updateShift() {
+            const shift = parseInt(document.getElementById('shift-slider').value);
+            document.getElementById('shift-value').textContent = shift;
+            document.getElementById('shift-display').textContent = shift;
+            
+            // Update alphabet display
+            updateAlphabetDisplay(shift);
+            
+            // Decode text
+            const decoded = caesarCipher(encryptedText, shift);
+            document.getElementById('decoded-text').value = decoded;
+        }
+
+        function updateAlphabetDisplay(shift) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const shifted1 = document.getElementById('shifted-alphabet');
+            const shifted2 = document.getElementById('shifted-alphabet-2');
+            
+            shifted1.innerHTML = '';
+            shifted2.innerHTML = '';
+            
+            // First half (A-M)
+            for (let i = 0; i < 13; i++) {
+                const shiftedIndex = (i - shift + 26) % 26;
+                const div = document.createElement('div');
+                div.className = 'letter-box shifted';
+                div.textContent = alphabet[shiftedIndex];
+                shifted1.appendChild(div);
+            }
+            
+            // Second half (N-Z)
+            for (let i = 13; i < 26; i++) {
+                const shiftedIndex = (i - shift + 26) % 26;
+                const div = document.createElement('div');
+                div.className = 'letter-box shifted';
+                div.textContent = alphabet[shiftedIndex];
+                shifted2.appendChild(div);
+            }
+        }
+
+        function checkDecryption() {
+            const currentDecoded = document.getElementById('decoded-text').value;
+            const resultDiv = document.getElementById('result-message');
+            
+            // Check if the decryption is correct (allowing for some variation in formatting)
+            const normalizedCurrent = currentDecoded.replace(/\s+/g, ' ').trim().toUpperCase();
+            const normalizedCorrect = correctDecryption.replace(/\s+/g, ' ').trim().toUpperCase();
+            
+            if (normalizedCurrent === normalizedCorrect) {
+                resultDiv.className = 'result-message success';
+                resultDiv.innerHTML = `
+                    <h3>🎉 Journal Successfully Decrypted!</h3>
+                    <p>Excellent work! You've successfully decoded Dr. Chen's final journal entry using a Caesar cipher with a shift of ${document.getElementById('shift-slider').value}.</p>
+                `;
+                
+                // Show final decoded output with highlighted time
+                showFinalOutput();
+                
+                // Save progress
+                localStorage.setItem('cipherPuzzleSolved', 'true');
+                localStorage.setItem('timeClue', '23:47');
+                
+            } else {
+                resultDiv.className = 'result-message error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Decryption Incomplete</h3>
+                    <p>The message isn't fully decoded yet. Try adjusting the shift value. Remember, Dr. Chen used astronomical numbers - think about our solar system!</p>
+                    <p><em>Hint: How many planets were traditionally counted in our solar system?</em></p>
+                `;
+            }
+        }
+
+        function showFinalOutput() {
+            const finalOutput = document.getElementById('final-output');
+            const decodedMessage = document.getElementById('decoded-message');
+            
+            // Format the decoded message with time highlighting
+            const formattedMessage = correctDecryption
+                .replace('TWENTYTHREEFORTYSEVEN', '<span class="time-highlight">23:47</span>')
+                .replace(/\n/g, '<br>');
+            
+            decodedMessage.innerHTML = `<div style="font-family: 'Roboto Mono', monospace; line-height: 1.6;">${formattedMessage}</div>`;
+            finalOutput.style.display = 'block';
+            
+            // Scroll to result
+            finalOutput.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetCipher() {
+            document.getElementById('shift-slider').value = 3;
+            updateShift();
+            document.getElementById('result-message').innerHTML = '';
+            document.getElementById('final-output').style.display = 'none';
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            updateShift();
+            
+            // Check if puzzle was already solved
+            if (localStorage.getItem('cipherPuzzleSolved') === 'true') {
+                // Set correct shift value and show solution
+                document.getElementById('shift-slider').value = 3;
+                updateShift();
+                
+                const resultDiv = document.getElementById('result-message');
+                resultDiv.className = 'result-message success';
+                resultDiv.innerHTML = `
+                    <h3>✅ Previously Solved</h3>
+                    <p>You have already decrypted Dr. Chen's journal. The time evidence (23:47) has been recorded.</p>
+                `;
+                
+                showFinalOutput();
+            }
+        });
+    </script>
+</body>
+</html>
