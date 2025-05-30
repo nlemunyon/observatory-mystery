@@ -414,7 +414,7 @@ PDFK FE EZ MQHJ ELLHJL HP<br>
                     <input type="text" class="keyword-input" id="keyword-input" placeholder="Enter keyword (e.g., CONSTELLATION NAME)">
                     <button class="btn" onclick="tryKeyword()">Test Keyword</button>
                     <div class="hint-box">
-                        <strong>Astronomical Keywords to Try:</strong> ORION, TELESCOPE, MERIDIAN, OBSERVATORY, STELLAR, COSMIC, PLANETS
+                        <strong>Astronomical Keywords to Try:</strong> TELESCOPE, STELLAR, COSMIC, PLANETS
                     </div>
                 </div>
                 
@@ -698,7 +698,7 @@ TWENTY THREE FORTY SEVEN
             // Provide subtle hint after 30 seconds
             setTimeout(() => {
                 if (!localStorage.getItem('cipherPuzzleSolved')) {
-                    showHint("Try using 'ORION' as a keyword cipher first, then apply a Caesar shift...");
+                    showHint("Try using 'O' as a keyword cipher first, then apply a Caesar shift...");
                 }
             }, 30000);
         });
